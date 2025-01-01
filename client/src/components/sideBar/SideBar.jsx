@@ -2,7 +2,6 @@
 import { useNavigate } from "react-router-dom";
 
 // Components
-import TheStrongestPerformingCards from "./theStrongestPerforming/TheStrongestPerformingCards.jsx";
 
 // Assets
 import HomeIcon from "../../assets/icon/homeIcon.png";
@@ -92,7 +91,7 @@ const SideBar = ({ toggleSideBar }) => {
             <span className="pl-[14px] pb-[1px]">Financial News</span>
           </button>
           
-          <TheStrongestPerformingCards />
+          {/* <TheStrongestPerformingCards /> */}
         </div>
       </nav>
     </div>
