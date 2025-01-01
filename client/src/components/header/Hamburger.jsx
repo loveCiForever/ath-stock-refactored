@@ -12,7 +12,7 @@ const Hamburger = ({ toggleSideBar }) => {
     <button
       className="p-3 hover:rounded-full hover:bg-gray-200 active:scale-[.90] active:duration-75 transition-all"
       onClick={() => {
-        console.log("Hamburger button clicked");
+        // console.log("Hamburger button clicked");
         toggleSideBar((prev) => !prev);
       }}
     >

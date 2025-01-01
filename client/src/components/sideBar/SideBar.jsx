@@ -1,6 +1,9 @@
 // Librabies and hooks
 import { useNavigate } from "react-router-dom";
 
+// Components
+import TheStrongestPerformingCards from "./theStrongestPerforming/TheStrongestPerformingCards.jsx";
+
 // Assets
 import HomeIcon from "../../assets/icon/homeIcon.png";
 import MarketTrendIcon from "../../assets/icon/MarketTrendIcon.png";
@@ -88,6 +91,8 @@ const SideBar = ({ toggleSideBar }) => {
             <img src={newsIcon} className="w-5" alt="Financial News" />
             <span className="pl-[14px] pb-[1px]">Financial News</span>
           </button>
+          
+          <TheStrongestPerformingCards />
         </div>
       </nav>
     </div>

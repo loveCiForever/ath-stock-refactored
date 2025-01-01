@@ -39,6 +39,7 @@ const HomePage = () => {
     <div>
       <Header toggleSideBar={() => toggleSideBar(!isSideBarOpen)} />
       {isSideBarOpen && <SideBar toggleSideBar={toggleSideBar} />}
+      
     </div>
   );
 };
