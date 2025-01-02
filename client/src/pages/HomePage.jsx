@@ -6,6 +6,7 @@ import Header from "../components/header/Header";
 import SideBar from "../components/sideBar/SideBar";
 import Footer from "../components/footer/Footer";
 import SearchBar from "../components/searchBar/SearchBar";
+import Market from "../components/market/Market";
 
 // Assets
 
@@ -41,13 +42,13 @@ const HomePage = () => {
       </div>
       
       <div className='flex items-center justify-center w-auto mt-20'>
-        
+        <Market />
       </div>
 
       <SearchBar />
 
       <div className=' w-full flex items-center justify-center'>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </div>
   );
