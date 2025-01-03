@@ -17,17 +17,6 @@ const HomePage = () => {
   });
 
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  // const [array, setArray] = useState([]);
-
-  // const fetchAPI_MARKET = async () => {
-  //   const response = await axios.get("http://127.0.0.1:8080/api/users");
-  //   console.log(response.data.users);
-  //   setArray(response.data.users);
-  // };
-
-  // useState(() => {
-  //   fetchAPI_MARKET();
-  // });
 
   const toggleSideBar = (isOpen) => {
     setIsSideBarOpen(isOpen);
@@ -57,15 +46,6 @@ const HomePage = () => {
       <div className="flex items-center justify-center w-auto mt-20">
         <Market />
       </div>
-      {/* <p>
-        {array.map((user, index) => {
-          return (
-            <div key={index}>
-              <span>{user}</span>
-            </div>
-          );
-        })}
-      </p> */}
 
       <SearchBar />
 
