@@ -1,6 +1,7 @@
 
 // Libraries and Hooks
 import { useEffect, useState } from "react";
+import axios from "axios";
 
 // Components
 import Branding from "../branding/Branding";
@@ -10,11 +11,27 @@ import SignIn from "./SignIn.jsx";
 
 
 
-
-
 // eslint-disable-next-line react/prop-types
 const Header = ({ toggleSideBar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [currentDateTime, setCurrentDateTime] = useState([]);
+
+  const fetchCurrentDateTime = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:5000/api/currentdatetime");
+      setCurrentDateTime(response.data.current_datetime); // Use the correct key
+    } catch (error) {
+      console.error("Error fetching current date:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCurrentDateTime();
+    const interval = setInterval(() => {
+      fetchCurrentDateTime();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -27,30 +44,8 @@ const Header = ({ toggleSideBar }) => {
     };
   }, []);
 
-  const [currentDate, setCurrentDate] = useState("");
-  const getCurrentDate = () => {
-    const date = new Date();
-
-    const month = date.getMonth() + 1;
-    const day = String(date.getDate()).padStart(2, '0');
-    const year = (date.getFullYear());
-
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    const seconds = String(date.getSeconds()).padStart(2, '0');
-
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
-  useEffect(() => {
-    setCurrentDate(getCurrentDate());
-
-    const intervalID = setInterval(() => {
-      setCurrentDate(getCurrentDate());
-    }, 1000);
-
-    return () => {clearInterval(intervalID)};
-  }, []);
-
+  
+  
 
   return (
     <header
@@ -72,7 +67,7 @@ const Header = ({ toggleSideBar }) => {
         <div className="flex items-center justify-center mr-5 bg-red-000">
           <div className="flex mr-5 justify-center items-center">
             <span className="text-md font-mono text-gray-800 whitespace-pre">
-              {currentDate}
+              {currentDateTime}
             </span>
           </div>
           <div className="mr-4">
