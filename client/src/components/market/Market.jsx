@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import CollapseAllIcon from "../../assets/icon/collapseAllIcon.png";
 import ExpandAllIcon from "../../assets/icon/expandAllIcon.png";
 import ArrowUp from "../../assets/icon/upArrowIcon.png";
@@ -8,8 +10,18 @@ import MarketsGraph from "./MarketsGraph";
 
 const Market = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [array, setArray] = useState([]);
+  const [isUp] = useState(true);
 
-  const [isUp, setIsUp] = useState(true);
+  const fetchAPI_MARKET = async () => {
+    const response = await axios.get("http://127.0.0.1:8080/api/users");
+    // console.log(response.data.users);
+    setArray(response.data.users);
+  };
+
+  useEffect(() => {
+    fetchAPI_MARKET();
+  });
 
   const handleExpandClick = () => {
     setIsExpanded(!isExpanded);
@@ -30,6 +42,13 @@ const Market = () => {
             alt={isExpanded ? "Collapse All Icon" : "Expand All Icon"}
           />
           Visualize
+          <p>
+            {array.map((user, index) => {
+              <div key={index}>
+                <span>{user}</span>
+              </div>;
+            })}
+          </p>
         </button>
 
         {isExpanded && (
@@ -48,16 +67,14 @@ const Market = () => {
               </div>
             </div>
             <div className="flex flex-col w-[40%] h-full ml-6 items-center justify-center  font-semibold text-[15px]">
-
-
               <div className="flex my-3 w-full items-center justify-between text-gray-600 hover:bg-gray-100 rounded-md">
                 <div className="w-[6px] h-[20px] rounded-l-sm rounded-r-sm bg-red-500"></div>
                 <span className="flex ml-2 w-[25%]">VN-INDEX</span>
                 <span className="flex items-center justify-end w-[25%]">
-                1.269,71
+                  1.269,71
                 </span>
                 <span className="flex items-center justify-end w-[20%] mr-4 text-green-700">
-                +2,93
+                  +2,93
                 </span>
                 <div className="flex items-center justify-end w-[25%] ">
                   <div className="flex w-full items-center justify-center py-[4px] rounded-md bg-green-100">
@@ -70,7 +87,6 @@ const Market = () => {
                   </div>
                 </div>
               </div>
-
 
               <div className="flex my-3 w-full items-center justify-between text-gray-600 hover:bg-gray-100 rounded-md">
                 <div className="w-[6px] h-[20px] rounded-l-sm rounded-r-sm bg-blue-500"></div>
@@ -103,7 +119,9 @@ const Market = () => {
                   -1,55
                 </span>
                 <div className="flex items-center justify-end w-[25%] ">
-                  <div className={`flex w-full items-center justify-center py-[4px] rounded-md bg-red-100 }`}>
+                  <div
+                    className={`flex w-full items-center justify-center py-[4px] rounded-md bg-red-100 }`}
+                  >
                     <img
                       src={ArrowDown}
                       alt={isUp ? "Arrow Up" : "Arrow Down"}
@@ -138,9 +156,7 @@ const Market = () => {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-center">
-        {/* <MarketCards /> */}
-      </div>
+      <div className="flex items-center justify-center"></div>
     </div>
   );
 };
