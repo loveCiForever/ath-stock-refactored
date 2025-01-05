@@ -35,7 +35,7 @@ def md_get_index_list():
     print(json.dumps(response, indent=4, ensure_ascii=False))
 
 def md_get_daily_OHLC():
-    response = client.daily_ohlc(config, model.daily_ohlc('ssi', '15/10/2020', '25/10/2020', 1, 100, True))
+    response = client.daily_ohlc(config, model.daily_ohlc('ACC', '11/10/2024', '12/10/2024', 1, 100, True))
     print(json.dumps(response, indent=4, ensure_ascii=False))
 
 def md_get_intraday_OHLC():
@@ -52,7 +52,21 @@ def md_get_stock_price():
     print(json.dumps(response, indent=4, ensure_ascii=False))
 
 
-
+    # "data": [
+    #     {
+    #         "Symbol": "ACC",
+    #         "Market": "HOSE",
+    #         "TradingDate": "11/10/2024",
+    #         "Time": null,
+    #         "Open": "14150",
+    #         "High": "14200",
+    #         "Low": "13900",
+    #         "Close": "13900",
+    #         "Volume": "81400",
+    #         "Value": "1140130000"
+    #     }
+    # ],
+    
 def main():
     
     while True:

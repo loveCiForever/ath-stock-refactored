@@ -3,12 +3,9 @@ from flask_cors import CORS
 from ssi_fc_data.model import model
 from ssi_fc_data.fc_md_client import MarketDataClient
 
-from pymongo import MongoClient
-from bson.objectid import ObjectId
 
 import config as config
 import json
-import requests
 
 from datetime import datetime, timedelta
 import time
@@ -16,77 +13,96 @@ import time
 app = Flask(__name__)
 CORS(app, origins='*')
 
-mongo_client = MongoClient("mongodb://localhost:27017/")
-db = mongo_client['market_data']
-collection = db['market_indices']
+market_data_client = MarketDataClient(config)
 
-mongo_client = MongoClient()
-db = mongo_client['market_data']
-collection = db['market_indices']
-
-data_client = MarketDataClient(config)
-
-def fetch_with_retry(index_id, fromDate, toDate):
-    while True:
-        try:
-            response = data_client.daily_index(config, model.daily_index('123', index_id, fromDate, toDate, 1, 100, '', ''))
-            if response.get('status') == "Success":
-                return response
-            else:
-                print(f"Failed to fetch {index_id}: {response.get('message')}. Retrying...")
-        except Exception as e:
-            print(f"Error fetching {index_id}: {str(e)}. Retrying...")
+@app.route('/api/market_daily_index', methods=['GET'])
+def get_daily_market_indices():
+    try:
+        # currentDate = datetime.now().strftime("%d-%m-%Y")
+        yesterday = (datetime.now() - timedelta(days=1)).strftime("%d/%m/%Y")
         
-        time.sleep(2)  
-     
-@app.route('/api/update_market_indices/<string:object_id>', methods=['PUT'])   
-def update_market_indices(object_id):
-    data = request.json
-    result = collection.update_one(
-        {"_id": ObjectId(object_id)},
-        {"$set": data}
-    )
-    
-    if result.modified_count > 0:
-        return jsonify({"message": "Market indices updated successfully"}), 200
-    else:
-        return jsonify({"message": "Market indices not updated"}), 400
-    
+        vnindex = market_data_client.daily_index(config, model.daily_index('123', 'vnindex', yesterday, yesterday, 1, 100, '', ''))
+        time.sleep(5) 
+        vn30 = market_data_client.daily_index(config, model.daily_index('123', 'vn30', yesterday, yesterday, 1, 100, '', ''))
+        time.sleep(5) 
+        hnxindex = market_data_client.daily_index(config, model.daily_index('123', 'hnxindex', yesterday, yesterday, 1, 100, '', ''))
+        time.sleep(5) 
+        hnx30 = market_data_client.daily_index(config, model.daily_index('123', 'hnx30', yesterday, yesterday, 1, 100, '', ''))
+        time.sleep(5)
 
-def fetch_daily_market_indices():
-    # currentDate = datetime.now().strftime("%d-%m-%Y")
-    yesterday = (datetime.now() - timedelta(days=1)).strftime("%d/%m/%Y")
+        response = {
+            'vnindex': vnindex,
+            'vn30': vn30,
+            'hnxindex': hnxindex,
+            'hnx30': hnx30
+        }
+        
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/stock_price', methods=['GET'])
+def get_stock_price():
+    # tickers = ['VIC', 'ACB', 'FPT', 'BID', 'SSI', 'VIB', 'CTG']
+    # for ticker in ticker:
+    try:
+        yesterday = (datetime.now() - timedelta(days=1)).strftime("%d/%m/%Y")
+        # date_from = '20/12/2024'
+        # date_end = '21/12/2024'
+        
+        date_from = yesterday
+        date_end = yesterday
+        
+        vic = market_data_client.daily_ohlc(config, model.daily_ohlc('vic', date_from, date_end, 1, 100, True))
+        time.sleep(5)
+        acb = market_data_client.daily_ohlc(config, model.daily_ohlc('acb', date_from, date_end, 1, 100, True))
+        time.sleep(5)
+        fpt = market_data_client.daily_ohlc(config, model.daily_ohlc('fpt', date_from, date_end, 1, 100, True))
+        time.sleep(5)
+        bid = market_data_client.daily_ohlc(config, model.daily_ohlc('bid', date_from, date_end, 1, 100, True))
+        time.sleep(5)
+        ssi = market_data_client.daily_ohlc(config, model.daily_ohlc('ssi', date_from, date_end, 1, 100, True))
+        time.sleep(5)
+        vib = market_data_client.daily_ohlc(config, model.daily_ohlc('vib', date_from, date_end, 1, 100, True))
+        time.sleep(5)
+        ctg = market_data_client.daily_ohlc(config, model.daily_ohlc('ctg', date_from, date_end, 1, 100, True))
+        time.sleep(5)
+        
+        
+        response = {
+            'vic': vic,
+            'acb': acb,
+            'fpt': fpt,
+            'bid': bid,
+            'ssi': ssi,
+            'vib': vib,
+            'ctg': ctg
+        }
+        
+        return jsonify(response)
+        # print(response)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+
+@app.route('/api/current_date_time', methods=['GET'])
+def getCurrentDate():
+    current_datetime = datetime.now()
     
-    fromDate = '30/08/2002'
-    # toDate = datetime.now().strftime("%d/%m/%Y")
-    toDate = '10/09/2002'
-    
-    vnindex = fetch_with_retry('vnindex', fromDate, toDate)
-    vn30 = fetch_with_retry('vn30', fromDate, toDate)
-    hnxindex = fetch_with_retry('hnxindex', fromDate, toDate)
-    hnx30 = fetch_with_retry('hnx30', fromDate, toDate)
-    
-    # Return the response as JSON
-    response = {
-        'vnindex': vnindex,
-        'vn30': vn30,
-        'hnxindex': hnxindex,
-        'hnx30': hnx30
+    response_data = {
+        'year': current_datetime.year,
+        'month': str(current_datetime.month).zfill(2),  
+        'date': str(current_datetime.day).zfill(2),     
+        'hour': str(current_datetime.hour).zfill(2), 
+        'minute': str(current_datetime.minute).zfill(2),
+        'second': str(current_datetime.second).zfill(2),
+        'day': current_datetime.strftime('%A')           
     }
     
-    collection.insert_one(response)
-    # return jsonify(response)
-    print(response)
-
-
-
-@app.route('/api/currentdatetime', methods=['GET'])
-def getCurrentDate():
-    current_datetime = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-    return jsonify({'current_datetime': current_datetime})
-
+    return jsonify(response_data)
 
 if __name__ == '__main__':
-    # app.run(debug=True)
-    # print(getCurrentDate())
-    fetch_daily_market_indices()
+    app.run(debug=True)
+    # get_daily_olhc()

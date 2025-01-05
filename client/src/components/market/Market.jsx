@@ -21,7 +21,7 @@ const Market = () => {
   const fetchDailyMarketIndices = async () => {
     try {
       const response = await axios.get(
-        "http://127.0.0.1:5000/api/market_indices"
+        "http://127.0.0.1:5000/api/market_daily_index"
       );
       setMarketData(response.data);
       // console.log("Market Data:", response.data);
@@ -29,6 +29,7 @@ const Market = () => {
       console.error("Error fetching market data:", error);
     }
   };
+
 
   const handleExpandClick = () => {
     setIsExpanded(!isExpanded);
@@ -100,7 +101,7 @@ const Market = () => {
       fetchDailyMarketIndices();
     }, 5000);
     return () => clearInterval(interval);
-  });
+  }, []);
 
   // ['VNINDEX', 'HNXINDEX', 'UPCOMINDEX', 'VN30', 'VN100', 'HNX30']
 
@@ -108,26 +109,24 @@ const Market = () => {
     <div className="flex flex-col w-[1000px] h-auto mt-[0px] bg-white">
       <div className="flex flex-col items-start">
         <button
-          className={`flex items-center justify-center uppercase text-gray-600 tracking-widest font-bold text-[12px] ${
+          className={`flex items-center justify-center uppercase text-gray-700 tracking-widest font-bold text-[12px] ${
             isExpanded ? "px-0" : "px-10"
           } `}
           onClick={handleExpandClick}
         >
           <img
-            className="h-4 w-4 mr-[4px]"
+            className="h-4 w-4 mr-[4px] mb-[2px]"
             src={isExpanded ? CollapseAllIcon : ExpandAllIcon}
             alt={isExpanded ? "Collapse All Icon" : "Expand All Icon"}
           />
-          Visualize
+          Visualize (ISSUE: Không lấy được dữ liệu của ngày hiện tại, đang lấy yesterday)
         </button>
 
         {!isExpanded && (
           <div className="flex flex-row items-center justify-between w-full px-10 mt-2">
             <div className="flex bg-white border border-gray-200 rounded-lg p-2 w-[23%] ">
               <div
-                className={`p-2 rounded-lg self-center flex justify-center items-center ${getBgColor(
-                  marketData.vnindex.data
-                )} `}
+                className={`p-2 rounded-lg self-center flex justify-center items-center ${getBgColor(marketData.vnindex.data)} `}
               >
                 <img
                   src={getStatusArrow(marketData.vnindex.data)}
@@ -145,14 +144,17 @@ const Market = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col items-end w-[30%] ml-2 text-[12px] tracking-wide text-red-700 ">
+              <div
+                className={`flex flex-col items-end w-[30%] ml-2 text-[12px] tracking-wide ${getTextColor(
+                  marketData.vnindex.data
+                )}`}
+              >
                 <div className="font-semibold">
-                  {vnindex.ratioChange}{" "}
+                  {vnindex.ratioChange}
                   {checkData(marketData.vnindex.data) ? "%" : ""}
                 </div>
                 <div>
-                  {vnindex.change}{" "}
-                  {checkData(marketData.vnindex.data) ? "%" : ""}
+                  {vnindex.change}
                 </div>
               </div>
             </div>
@@ -179,14 +181,17 @@ const Market = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col items-end w-[30%] ml-2 text-[12px] tracking-wide text-red-700 ">
+              <div
+                className={`flex flex-col items-end w-[30%] ml-2 text-[12px] tracking-wide ${getTextColor(
+                  marketData.vnindex.data
+                )}`}
+              >
                 <div className="font-semibold">
-                  {hnxindex.ratioChange}{" "}
+                  {hnxindex.ratioChange}
                   {checkData(marketData.hnxindex.data) ? "%" : ""}
                 </div>
                 <div>
-                  {hnxindex.change}{" "}
-                  {checkData(marketData.hnxindex.data) ? "%" : ""}
+                  {hnxindex.change}
                 </div>
               </div>
             </div>
@@ -213,14 +218,17 @@ const Market = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col items-end w-[30%] ml-2 text-[12px] tracking-wide text-red-700 ">
+              <div
+                className={`flex flex-col items-end w-[30%] ml-2 text-[12px] tracking-wide ${getTextColor(
+                  marketData.vnindex.data
+                )}`}
+              >
                 <div className="font-semibold">
-                  {vn30.ratioChange}{" "}
+                  {vn30.ratioChange}
                   {checkData(marketData.vn30.data) ? "%" : ""}
                 </div>
                 <div>
-                  {vn30.change}{" "}
-                  {checkData(marketData.vn30.data) ? "%" : ""}
+                  {vn30.change}
                 </div>
               </div>
             </div>
@@ -247,14 +255,17 @@ const Market = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col items-end w-[30%] ml-2 text-[12px] tracking-wide text-red-700 ">
+              <div
+                className={`flex flex-col items-end w-[30%] ml-2 text-[12px] ${getTextColor(
+                  marketData.vnindex.data
+                )}`}
+              >
                 <div className="font-semibold">
-                  {hnx30.ratioChange}{" "}
+                  {hnx30.ratioChange}
                   {checkData(marketData.hnx30.data) ? "%" : ""}
                 </div>
-                <div>
-                  {hnx30.change}{" "}
-                  {checkData(marketData.hnx30.data) ? "%" : ""}
+                <div className="tracking-wider">
+                  {hnx30.change}
                 </div>
               </div>
             </div>
@@ -265,19 +276,19 @@ const Market = () => {
           <div className="flex w-full h-[400px] border border-gray-100 rounded-xl shadow-md items-center justify-between my-[10px] px-6 py-4">
             <div className="flex flex-col w-[60%] h-full">
               <div className="flex items-center justify-between font-semibold text-gray-500 text-[15px]">
-                <button className="hover:bg-gray-100 px-5">1 Day</button>
-                <button className="hover:bg-gray-100 px-5">1 Week </button>
-                <button className="hover:bg-gray-100 px-5">1 Month</button>
-                <button className="hover:bg-gray-100 px-5">1 Year</button>
-                <button className="hover:bg-gray-100 px-5">5 Year</button>
+                <button className="px-5 hover:bg-gray-100">1 Day</button>
+                <button className="px-5 hover:bg-gray-100">1 Week </button>
+                <button className="px-5 hover:bg-gray-100">1 Month</button>
+                <button className="px-5 hover:bg-gray-100">1 Year</button>
+                <button className="px-5 hover:bg-gray-100">5 Year</button>
               </div>
 
-              <div className="w-full h-full flex items-center justify-center">
+              <div className="flex items-center justify-center w-full h-full">
                 <MarketsGraph />
               </div>
             </div>
             <div className="flex flex-col w-[40%] h-full ml-6 items-center justify-center  font-semibold text-[15px]">
-              <div className="flex my-3 w-full items-center justify-between text-gray-600 hover:bg-gray-100 rounded-md">
+              <div className="flex items-center justify-between w-full my-3 text-gray-600 rounded-md hover:bg-gray-100">
                 <div className="w-[6px] h-[20px] rounded-l-sm rounded-r-sm bg-red-500"></div>
                 <span className="flex ml-2 w-[25%]">VN-INDEX</span>
                 <span className="flex items-center justify-end w-[25%]">
@@ -311,7 +322,7 @@ const Market = () => {
                 </div>
               </div>
 
-              <div className="flex my-3 w-full items-center justify-between text-gray-600 hover:bg-gray-100 rounded-md">
+              <div className="flex items-center justify-between w-full my-3 text-gray-600 rounded-md hover:bg-gray-100">
                 <div className="w-[6px] h-[20px] rounded-l-sm rounded-r-sm bg-yellow-500"></div>
                 <span className="flex ml-2 w-[25%]">HNX-INDEX</span>
                 <span className="flex items-center justify-end w-[25%]">
@@ -345,7 +356,7 @@ const Market = () => {
                 </div>
               </div>
 
-              <div className="flex my-3 w-full items-center justify-between text-gray-600 hover:bg-gray-100 rounded-md">
+              <div className="flex items-center justify-between w-full my-3 text-gray-600 rounded-md hover:bg-gray-100">
                 <div className="w-[6px] h-[20px] rounded-l-sm rounded-r-sm bg-blue-500"></div>
                 <span className="flex ml-2 w-[25%]">VN-30</span>
                 <span className="flex items-center justify-end w-[25%]">
@@ -377,7 +388,7 @@ const Market = () => {
                 </div>
               </div>
 
-              <div className="flex my-3 w-full items-center justify-between text-gray-600 hover:bg-gray-100 rounded-md">
+              <div className="flex items-center justify-between w-full my-3 text-gray-600 rounded-md hover:bg-gray-100">
                 <div className="w-[6px] h-[20px] rounded-l-sm rounded-r-sm bg-green-500"></div>
                 <span className="flex ml-2 w-[25%]">HNX-30</span>
                 <span className="flex items-center justify-end w-[25%]">
@@ -412,7 +423,6 @@ const Market = () => {
           </div>
         )}
       </div>
-      <div className="flex items-center justify-center"></div>
     </div>
   );
 };
