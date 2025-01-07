@@ -4,21 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="40d5cb65-6e5b-4270-9ab8-a26f7a342e9e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/build.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/gradlew" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/gradlew.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/settings.gradle.kts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/athstock/AthStockSupportTradingApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/test/java/com/athstock/AthStockSupportTradingApplicationTests.java" beforeDir="false" />
-    </list>
+    <list default="true" id="40d5cb65-6e5b-4270-9ab8-a26f7a342e9e" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,10 +26,10 @@
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "backend-dev",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "Z:/TDTU_CSI_K27/2024_2025/ath-stock",
+    "last_opened_file_path": "Z:/TDTU_CSI_K27/2024_2025/ath-stock/athstockserver",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -82,6 +68,7 @@
       <workItem from="1736218503273" duration="9000" />
       <workItem from="1736218527565" duration="21000" />
       <workItem from="1736218777539" duration="678000" />
+      <workItem from="1736220019698" duration="294000" />
     </task>
     <servers />
   </component>
