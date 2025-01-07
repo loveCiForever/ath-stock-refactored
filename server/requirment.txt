@@ -1,8 +1,0 @@
-flask
-Flask_SQLAlchemy
-Flask_Login
-Flask_WTF
-WTForms
-pandas
-flask_cors
-
