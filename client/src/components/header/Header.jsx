@@ -1,4 +1,3 @@
-
 // Libraries and Hooks
 import { useEffect, useState } from "react";
 import axios from "axios";
@@ -8,30 +7,14 @@ import Branding from "../branding/Branding";
 import Hamburger from "./Hamburger.jsx";
 import Notification from "./Notification.jsx";
 import SignIn from "./SignIn.jsx";
-
-
+import CurrentDateTime from "./CurrentDateTime.jsx";
+import MarketStatus from "./MarketStatus.jsx";
+import FetchingCurrentDateTime from "./FetchingCurrentDateTime.jsx";
 
 // eslint-disable-next-line react/prop-types
 const Header = ({ toggleSideBar }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [currentDateTime, setCurrentDateTime] = useState([]);
-
-  const fetchCurrentDateTime = async () => {
-    try {
-      const response = await axios.get("http://127.0.0.1:5000/api/currentdatetime");
-      setCurrentDateTime(response.data.current_datetime); // Use the correct key
-    } catch (error) {
-      console.error("Error fetching current date:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCurrentDateTime();
-    const interval = setInterval(() => {
-      fetchCurrentDateTime();
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const { currentDateTime, dataLength } = FetchingCurrentDateTime();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,9 +26,6 @@ const Header = ({ toggleSideBar }) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  
-  
 
   return (
     <header
@@ -65,10 +45,15 @@ const Header = ({ toggleSideBar }) => {
         </div>
 
         <div className="flex items-center justify-center mr-5 bg-red-000">
-          <div className="flex mr-5 justify-center items-center">
-            <span className="text-md font-mono text-gray-800 whitespace-pre">
-              {currentDateTime}
-            </span>
+          <div className="flex items-center justify-center mr-5">
+            <MarketStatus
+              currentDateTime={currentDateTime}
+              dataLength={dataLength}
+            />
+            <CurrentDateTime
+              currentDateTime={currentDateTime}
+              dataLength={dataLength}
+            />
           </div>
           <div className="mr-4">
             <Notification />
@@ -82,6 +67,5 @@ const Header = ({ toggleSideBar }) => {
     </header>
   );
 };
-
 
 export default Header;
