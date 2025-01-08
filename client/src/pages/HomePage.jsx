@@ -44,17 +44,17 @@ const HomePage = () => {
       </div>
 
       <div className="flex items-center justify-center w-auto mt-20">
-        <Market />
+        {/* <Market /> */}
       </div>
 
       <SearchBar />
 
-      <div className='flex w-[1000px] bg-red-000 px-10'>
-        <div className='flex-col'>
-          <div className='flex items-stretch justify-center bg-red mt-[20px] h-auto//'>
-            <MayBeYouCare />
+      <div className="flex w-[1000px] bg-red-000 px-10">
+        <div className="flex-col">
+          <div className="flex items-stretch justify-center bg-red mt-[20px] h-auto//">
+            {/* <MayBeYouCare /> */}
           </div>
-          <div className='flex mt-10 mb-0 bg-red-00'>
+          <div className="flex mt-10 mb-0 bg-red-00">
             {/* <FinancialNew /> */}
           </div>
         </div>
